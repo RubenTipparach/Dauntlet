@@ -14,6 +14,8 @@ public class DantePlayer : MonoBehaviour {
     [SerializeField]
     LayerMask wallLayers;
 
+    [SerializeField]
+    Animator animator;
 
     // Use this for initialization
     void Start () {
@@ -35,7 +37,48 @@ public class DantePlayer : MonoBehaviour {
         if (horiz != 0 || vert != 0)
         {
             GetComponent<Rigidbody2D>().AddForce(new Vector2(horiz, vert) * moveSpeed, ForceMode2D.Impulse);
+
+            if(horiz > 0)
+            {
+                animator.transform.localScale = new Vector3(-1, 1, 1);
+                horiz = -horiz;
+            }
+            else
+            {
+                animator.transform.localScale = new Vector3(1, 1, 1);
+            }
+
+            // s
+            if (horiz == 0 && vert < 0)
+            {
+                animator.SetInteger("dir", 0);
+            }
+
+            //sw
+            if (horiz < 0 && vert < 0)
+            {
+                animator.SetInteger("dir", 1);
+            }
+
+            // west
+            if (horiz < 0 && vert == 0)
+            {
+                animator.SetInteger("dir", 2);
+            }
+
+            //nw
+            if (horiz < 0 && vert > 0)
+            {
+                animator.SetInteger("dir", 3);
+            }
+
+            //n
+            if (horiz == 0 && vert > 0)
+            {
+                animator.SetInteger("dir", 4);
+            }
         }
+
     }
 
 }
